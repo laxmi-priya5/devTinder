@@ -1,25 +1,30 @@
 const express = require("express");
 
+const {connectDB} = require("./config/database");
 const app = express();
-
-app.use("/hello/2",(req , res)=>{
-    res.send("welcome2  from the server");
-})
-
-app.use("/hello",(req , res)=>{
-    res.send("welcome  from the server");
-})
+  
+const User = require("./models/user")
 
 
-
-app.use("/test",(req,res)=>{
-    res.send("hello hello hello")
-})
-
-app.use("/",(req , res)=>{
-    res.send("welcome");
+const user1 = {
+    firstName:"Subha",
+    lastname:"Rout",
+    emailId:"subha@rout.com",
+    password:"laxmi@123"
+}
+app.post("/signup",async (req , res)=>{
+   const user = new User(user1);
+   await user.save();
+   res.send("added successfully");
 })
 
 
-app.listen(3030 , ()=>console.log('listen to the port'));
 
+
+connectDB()
+.then(()=>{
+    console.log("connection established...")
+    app.listen(3030 , ()=>console.log('listen to the port'));
+
+})
+.catch(()=>console.error("database can't established"))
