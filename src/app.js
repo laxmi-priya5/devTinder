@@ -1,22 +1,46 @@
 const express = require("express");
 
 const {connectDB} = require("./config/database");
+const {ValidateSignup} = require("./utils/validateSignup");
 const app = express();
   
 const User = require("./models/user")
-
+const bcrypt = require("bcrypt"); 
 app.use(express.json());
 
+app.post("/login",async (req,res)=>{
+    const {emailId , password}=req.body;
+    try{
+         const user = await User.findOne({emailId:emailId});
+         if(!user){
+            throw new Error("user not found");
+         }
+         const isPasswordValid = await bcrypt.compare(password ,user.password);
+         if(isPasswordValid){
+            res.send("login successful");
+         }else{
+            throw new Error("invalid password");
+         }
+    }catch(error){
+          res.status(400).send("ERROR:" +error.message) 
+    }
+})
     
 app.post("/signup",async (req , res)=>{
     
-   const user = new User(req.body);
+   
    try{
+       
+        ValidateSignup(req);  
+        
+        const {firstName,lastName,emailId,password} = req.body;
+        const hassedPassword = await bcrypt.hash(password,10);
+        const user = new User({firstName,lastName,emailId,password:hassedPassword});
         await user.save();
         res.send("added successfully");
    }catch(error){
     // res.status(400).send("error in adding user");
-     res.status(400).send(error.message);
+     res.status(400).send("ERROR:"+ error.message);
    }
 
 })
@@ -48,10 +72,10 @@ app.delete("/user",async(req,res)=>{
 })
 
 app.patch("/user",async(req,res)=>{
-    const userId = req.body.Id;
+    const userEmail = req.body.emailId;
     const updateData = req.body;
     try{
-       const user =  await User.findByIdAndUpdate({_id:userId},updateData,{returnDocument:"before"});
+       const user =  await User.findOneAndUpdate({emailId:userEmail},updateData,{returnDocument:"before"});
         res.send("user updated successfully");
         console.log(user);
     }

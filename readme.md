@@ -39,3 +39,11 @@ res.send(req.params)
 // res.send("id: "+ req.params.id)
 // res.send("reviewId: " + req.params.reviewId)
 })
+
+## to connect node js application to mongo database , we use mongoos library to create schema , models and talk to mongodb database
+
+-> go npm mongoos
+
+# how to use mongoose to connect to our database
+
+- npm i mongoos
