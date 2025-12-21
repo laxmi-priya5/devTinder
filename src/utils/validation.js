@@ -7,5 +7,11 @@ const ValidateSignup = (req)=>{
         throw new Error("password must be at least 8 characters long");
     }       
 }
+const ValidateEditProfile = (req)=>{
+  
+    const editableFields = ['firstName','lastName','skills'];
+    const isEditable = Object.keys(req.body).every((field)=>editableFields.includes(field))
+    return isEditable
+}
 
-module.exports = {ValidateSignup,};
+module.exports = {ValidateSignup,ValidateEditProfile};
