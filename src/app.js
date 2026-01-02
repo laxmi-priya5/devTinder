@@ -18,7 +18,7 @@ const {userRouter} = require("./routers/userRouter");
 const cors = require("cors");
 
 app.use(cors({
-  origin: process.env.FRONTEND_URL, // frontend port
+  origin: [process.env.FRONTEND_URL || "https://dev-tinder-frontend-alpha.vercel.app/" || "http://localhost:3030"], // frontend port
   credentials: true
 }));
 app.use(express.json());
