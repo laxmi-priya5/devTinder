@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require("express");
 
 const {connectDB} = require("./config/database");
@@ -6,6 +7,7 @@ const app = express();
   
 const User = require("./models/user")
 const bcrypt = require("bcrypt"); 
+
 const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
 const {userAuth} = require("./middlewares/auth");
@@ -16,12 +18,13 @@ const {userRouter} = require("./routers/userRouter");
 const cors = require("cors");
 
 app.use(cors({
-  origin: "http://localhost:5173", // frontend port
+  origin: process.env.FRONTEND_URL, // frontend port
   credentials: true
 }));
 app.use(express.json());
 app.use(cookieParser());
 
+app.get("/", (req, res)=>{res.json({message: "Health OK"})})
 app.use('/',authRouter);
 app.use('/',profileRouter);
 app.use('/',requestRouter);
