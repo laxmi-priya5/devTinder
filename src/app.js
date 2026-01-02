@@ -74,9 +74,7 @@ app.use('/',userRouter)
 
 
 connectDB()
-.then(()=>{
-    console.log("connection established...")
-    app.listen(3030 , ()=>console.log('listen to the port'));
+  .then(() => console.log("DB connected"))
+  .catch(err => console.error("DB error", err));
 
-})
-.catch(()=>console.error("database can't established"))
+module.exports = app;
