@@ -10,7 +10,7 @@ userRouter.get("/user/request/received",userAuth,async(req,res)=>{
          const receivedRequest = await connectionRequest.find({
             toUserId:user._id,
             status:"interested"
-         }).populate("fromUserId"," firstName lastName "); 
+         }).populate("fromUserId"," firstName lastName photoURL about "); 
 
          res.json({
             message:"Received Requests fetched successfully",
@@ -30,7 +30,7 @@ userRouter.get("/user/connections",userAuth , async(req,res)=>{
                 {fromUserId:loggedInUser._id,status:"accepted"},
                 {toUserId:loggedInUser._id,status:"accepted"}
             ]
-        }).populate("fromUserId toUserId"," firstName lastName profilePic ");
+        }).populate("fromUserId toUserId"," firstName lastName photoURL about ");
 
         // not the whole connection is needed, only the connected user's info is needed
         // so we will map through the connections and get the other user's info who is connected with the loggedInUser
@@ -75,10 +75,10 @@ userRouter.get("/feed",userAuth,async(req,res)=>{
                 {_id:{$nin:Array.from(blockedUserIds)}},
                 {_id:{$ne:loggedInUser._id}}
             ]
-         }).select("firstName lastName")
+         }).select("firstName lastName about photoURL")
          .skip(skip)
          .limit(limit);
-       
+        console.log("calling backend")
         res.send(allowedUserId);
        
     }catch(err){

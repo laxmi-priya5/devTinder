@@ -15,6 +15,7 @@ requestRouter.post("/request/send/:status/:userId",userAuth,async(req , res)=>{
          
          // check to which you send request is that user exist or not  in database
          const toUser = await User.findById(toUserId);
+         
          if(!toUser){
             return res.status(404).send("ERROR:User not found");
          }

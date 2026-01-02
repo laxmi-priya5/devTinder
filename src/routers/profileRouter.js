@@ -13,7 +13,7 @@ profileRouter.get("/profile/view",userAuth,async(req,res)=>{
      res.send(user);
     // res.send("reading cookies");
       }catch(error){ 
-        res.status(401).send("ERROR:"+ error.message);
+        return res.status(401).send("ERROR:"+ error.message);
       }
 
 }) 
@@ -24,13 +24,16 @@ profileRouter.patch("/profile/edit",userAuth,async(req,res)=>{
             throw new Error("invalid fields for edit");
         }
         const user = req.user;
-        console.log(user);
+       
         Object.keys(req.body).forEach((key)=>{
             user[key]=req.body[key];
         })
         console.log(user)
         await user.save();
-        res.send("profile edited successfully");
+        res.json({
+            message:"profile edited successfully",
+            user
+        });
     
 
         

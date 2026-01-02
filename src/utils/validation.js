@@ -9,7 +9,7 @@ const ValidateSignup = (req)=>{
 }
 const ValidateEditProfile = (req)=>{
   
-    const editableFields = ['firstName','lastName','skills'];
+    const editableFields = ['firstName','lastName','skills' ,'gender','photoURL','about','age'];
     const isEditable = Object.keys(req.body).every((field)=>editableFields.includes(field))
     return isEditable
 }
