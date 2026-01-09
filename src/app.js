@@ -1,123 +1,79 @@
-// // require('dotenv').config()
-// const express = require("express");
-// require("dotenv").config();
-
-// const {connectDB} = require("./config/database");
-
-// const app = express();
-  
-// const User = require("./models/user")
-// const bcrypt = require("bcrypt"); 
-
-// const cookieParser = require("cookie-parser");
-// const jwt = require("jsonwebtoken");
-// const {userAuth} = require("./middlewares/auth");
-// const {requestRouter} = require("./routers/requestRouter");
-// const {authRouter} = require("./routers/authRouter");
-// const {profileRouter} = require("./routers/profileRouter");
-// const {userRouter} = require("./routers/userRouter");
-// const cors = require("cors");
-
-// app.use(cors({
-//   origin: [process.env.FRONTEND_URL, "https://dev-tinder-frontend-alpha.vercel.app", "http://localhost:3030"],
-//   credentials: true
-// }));
-// app.use(express.json());
-// app.use(cookieParser());
-
-// app.get("/", (req, res)=>{res.json({message: "Health OK"})})
-// app.use('/',authRouter);
-// app.use('/',profileRouter);
-// app.use('/',requestRouter);
-// app.use('/',userRouter)
-
-
-
-// // app.get("/user",async(req,res)=>{
-// //     const userEmail = req.body.emailId;
-// //     try{
-// //            const users = await User.find({emailId:userEmail})
-// //            if(users.length>0){res.send(users);}
-// //            else{res.status(404).send("user not found");}
-
-// //     } 
-// //     catch{
-// //         res.status(400).send("error in fetching user");
-// //     }
-
-    
-// // })
-
-// // app.delete("/user",async(req,res)=>{
-// //     const userId = req.body.Id;
-// //     try{
-// //         await User.findByIdAndDelete({_id:userId});
-// //         res.send("user deleted successfully");
-// //     }
-// //     catch{
-// //         res.status(400).send("error in deleting user");
-// //     }
-// // })
-
-// // app.patch("/user",async(req,res)=>{
-// //     const userEmail = req.body.emailId;
-// //     const updateData = req.body;
-// //     try{
-// //        const user =  await User.findOneAndUpdate({emailId:userEmail},updateData,{returnDocument:"before"});
-// //         res.send("user updated successfully");
-// //         console.log(user);
-// //     }
-// //     catch{
-// //         res.status(400).send("error in updating user");
-// //     }
-// // })
-
-
-// connectDB()
-
-// module.exports = app;
-
-// src/app.js
+// require('dotenv').config()
+const express = require("express");
 require("dotenv").config();
 
-const express = require("express");
-const { connectDB } = require("./config/database"); // your DB file
-
-const cookieParser = require("cookie-parser");
-const cors = require("cors");
-
-const { authRouter } = require("./routers/authRouter");
-const { profileRouter } = require("./routers/profileRouter");
-const { requestRouter } = require("./routers/requestRouter");
-const { userRouter } = require("./routers/userRouter");
-
-// Initialize DB connection immediately (important for serverless)
-connectDB().catch(err => {
-  console.error("MongoDB connection failed at startup:", err);
-});
+const {connectDB} = require("./config/database");
 
 const app = express();
+  
+const User = require("./models/user")
+const bcrypt = require("bcrypt"); 
+
+const cookieParser = require("cookie-parser");
+const jwt = require("jsonwebtoken");
+const {userAuth} = require("./middlewares/auth");
+const {requestRouter} = require("./routers/requestRouter");
+const {authRouter} = require("./routers/authRouter");
+const {profileRouter} = require("./routers/profileRouter");
+const {userRouter} = require("./routers/userRouter");
+const cors = require("cors");
 
 app.use(cors({
-  origin: [
-    process.env.FRONTEND_URL,
-    "https://dev-tinder-frontend-alpha.vercel.app",
-    "http://localhost:5173",
-    "http://localhost:3030"
-  ],
+  origin: [process.env.FRONTEND_URL, "https://dev-tinder-frontend-alpha.vercel.app", "http://localhost:3030"],
   credentials: true
 }));
-
 app.use(express.json());
 app.use(cookieParser());
 
-app.get("/", (req, res) => {
-  res.json({ message: "Health OK" });
-});
+app.get("/", (req, res)=>{res.json({message: "Health OK"})})
+app.use('/',authRouter);
+app.use('/',profileRouter);
+app.use('/',requestRouter);
+app.use('/',userRouter)
 
-app.use('/', authRouter);
-app.use('/', profileRouter);
-app.use('/', requestRouter);
-app.use('/', userRouter);
+
+
+// app.get("/user",async(req,res)=>{
+//     const userEmail = req.body.emailId;
+//     try{
+//            const users = await User.find({emailId:userEmail})
+//            if(users.length>0){res.send(users);}
+//            else{res.status(404).send("user not found");}
+
+//     } 
+//     catch{
+//         res.status(400).send("error in fetching user");
+//     }
+
+    
+// })
+
+// app.delete("/user",async(req,res)=>{
+//     const userId = req.body.Id;
+//     try{
+//         await User.findByIdAndDelete({_id:userId});
+//         res.send("user deleted successfully");
+//     }
+//     catch{
+//         res.status(400).send("error in deleting user");
+//     }
+// })
+
+// app.patch("/user",async(req,res)=>{
+//     const userEmail = req.body.emailId;
+//     const updateData = req.body;
+//     try{
+//        const user =  await User.findOneAndUpdate({emailId:userEmail},updateData,{returnDocument:"before"});
+//         res.send("user updated successfully");
+//         console.log(user);
+//     }
+//     catch{
+//         res.status(400).send("error in updating user");
+//     }
+// })
+
+
+connectDB()
 
 module.exports = app;
+
