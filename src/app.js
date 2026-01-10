@@ -24,7 +24,7 @@ app.use(cors({
     // "https://dev-tinder-gilt.vercel.app",
     "https://dev-tinder-frontend-alpha.vercel.app"
   ],
-  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   credentials: true
 }));
 

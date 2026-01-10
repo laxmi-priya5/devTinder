@@ -20,7 +20,7 @@ authRouter.post("/login",async (req,res)=>{
             httpOnly: true,
             secure: true,        // REQUIRED (HTTPS)
             sameSite: "None",    // REQUIRED (cross-site)
-            expires: new Date(Date.now() + 8 * 3600000),
+            // expires: new Date(Date.now() + 8 * 3600000),
             });
 
            
