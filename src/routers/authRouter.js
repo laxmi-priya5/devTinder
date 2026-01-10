@@ -59,11 +59,16 @@ authRouter.post("/signup",async (req , res)=>{
 })
 
 authRouter.post("/logout" , (req,res)=>{
-   try{
-     res
-    .cookie("token",null,{expires:new Date(Date.now())})
-    .send("logout successful");
-   }catch(err){
+   try {
+    res
+      .cookie("token", "", {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+        expires: new Date(0),
+      })
+      .send("logout successful");
+  } catch(err){
       res.status(400).send("ERROR:"+ err.message);
    }
     
