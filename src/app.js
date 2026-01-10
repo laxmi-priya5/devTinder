@@ -21,7 +21,7 @@ const cors = require("cors");
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "https://dev-tinder-gilt.vercel.app",
+    // "https://dev-tinder-gilt.vercel.app",
     "https://dev-tinder-frontend-alpha.vercel.app"
   ],
   credentials: true
