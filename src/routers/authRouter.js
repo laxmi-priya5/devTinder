@@ -16,9 +16,13 @@ authRouter.post("/login",async (req,res)=>{
          const isPasswordValid = await user.validatePassword(password);  //method from user model
          if(isPasswordValid){
             const token = await user.getjwt(); //method from user model
-            res.cookie("token",token, {
-               expires:new Date(Date.now()+8*3600000)
-                                      });
+            res.cookie("token", token, {
+            httpOnly: true,
+            secure: true,        // REQUIRED (HTTPS)
+            sameSite: "None",    // REQUIRED (cross-site)
+            expires: new Date(Date.now() + 8 * 3600000),
+            });
+
            
             res.send(user);
             
